@@ -13,7 +13,7 @@ android {
     compileSdkVersion 36
 
     defaultConfig {
-        applicationId "io.heckel.ntfy"
+        applicationId "cz.trmota.ntfy"
         minSdkVersion 26
         targetSdkVersion 36
 
@@ -32,6 +32,15 @@ android {
         }
     }
 
+    signingConfigs {
+        rel {
+            keyPassword("releasepassword")
+            storePassword("releasepassword")
+            keyAlias("key")
+            storeFile file("../release-keystore.jks")
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -40,6 +49,7 @@ android {
             // DEV/TEST ONLY: Uncomment this to test the release build with a debug key.
             //                This is required to test against the production Firebase config.
             // signingConfig signingConfigs.debug
+            signingConfig signingConfigs.rel
         }
         debug {
             minifyEnabled false
@@ -54,7 +64,7 @@ android {
     productFlavors {
         play {
             buildConfigField 'boolean', 'FIREBASE_AVAILABLE', 'true'
-            buildConfigField 'boolean', 'RATE_APP_AVAILABLE', 'true'
+            buildConfigField 'boolean', 'RATE_APP_AVAILABLE', 'false'
             buildConfigField 'boolean', 'PAYMENT_LINKS_AVAILABLE', 'false' // Google Play Payments Policy, see #1463
         }
         fdroid {
